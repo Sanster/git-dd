@@ -2,7 +2,7 @@
 
 > git command to delete branches interactively
 
-# How to use
+## How to use
 Install git-dd with gem:
 ```
 gem install git-dd
