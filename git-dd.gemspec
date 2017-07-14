@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.summary     = 'git command to delete branches interactively'
   s.authors     = ["Weiqing Chu"]
   s.email       = 'cwq1913@gmail.com'
-  s.homepage    = 'http://rubygems.org/gems/hola'
+  s.homepage    = 'https://github.com/Sanster/git-dd'
   s.license     = 'MIT'
 
   s.add_runtime_dependency 'tty-prompt', '0.12.0'
