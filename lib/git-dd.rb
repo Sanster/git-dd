@@ -6,14 +6,17 @@ require 'rainbow/ext/string'
 class GitDD
   def run
     branches = `git branch`
+    return if $?.exitstatus != 0
+
+    if branches.size == 1
+      puts "You only have one branch."
+      return
+    end
+
     branches = branches.split("\n").select do |b|
       b != current_branch_with_mark && !b.include?("* (HEAD detached at")
     end
 
-    if branches.size == 0
-      puts "You only have one branch."
-      return
-    end
 
     puts "Current branch is: #{current_branch.color(:green)}"
 
