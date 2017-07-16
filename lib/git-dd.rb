@@ -39,6 +39,11 @@ class GitDD
       branches.each { |k, v| menu.choice v, k}
     end
 
+    if branches_to_delete.size == 0
+      puts "No branch selected"
+      return
+    end
+
     branches_to_delete.each { |b| puts b.color(:red) }
 
     ensure_delete = !prompt.no?('Are you sure?')
