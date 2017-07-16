@@ -41,8 +41,6 @@ class GitDD
   end
 
   def current_branch
-    return @current_branch if @current_branch
-    @current_branch ||= `git rev-parse --abbrev-ref HEAD`
-    @current_branch = @current_branch.gsub("\n", '')
+    @current_branch ||= `git rev-parse --abbrev-ref HEAD`.chomp
   end
 end
