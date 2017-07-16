@@ -3,7 +3,7 @@
 > git command to delete branches interactively
 
 ## How to use
-Install git-dd with gem:
+Install git-dd with [gem](https://rubygems.org/):
 ```
 gem install git-dd
 ```
