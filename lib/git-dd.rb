@@ -2,9 +2,12 @@
 
 require 'tty-prompt'
 require 'rainbow/ext/string'
+require 'const.rb'
 
 class GitDD
-  def run
+  attr_accessor :prompt
+
+  def run(test_prompt = nil)
     branch_names = `git branch`
     return if $?.exitstatus != 0
 
@@ -19,15 +22,18 @@ class GitDD
     branch_names.each_with_index { |b, i| branches[b] = branches_with_more_info[i] }
 
     if branches.size == 1
-      puts "You only have one branch."
-      return
+      return print(ONLY_ONE_BRANCH)
     end
 
     branches = branches.select { |k, v| k != current_branch_with_mark && !k.include?("* (HEAD detached at") }
 
     puts "Current branch is: #{current_branch.color(:green)}"
 
-    prompt = TTY::Prompt.new(interrupt: :exit)
+    if test_prompt
+      prompt = test_prompt
+    else
+      prompt = TTY::Prompt.new(interrupt: :exit)
+    end
 
     prompt.on(:keypress) do |event|
       if event.value == 'q'
@@ -40,8 +46,7 @@ class GitDD
     end
 
     if branches_to_delete.size == 0
-      puts "No branch selected"
-      return
+      return print(NO_BRANCH_SELECTED)
     end
 
     branches_to_delete.each { |b| puts b.color(:red) }
@@ -53,6 +58,8 @@ class GitDD
         puts `git branch -D #{b}`.chomp.color(:yellow)
       end
     end
+
+    return branches_to_delete
   end
 
   private
@@ -63,5 +70,10 @@ class GitDD
 
   def current_branch
     @current_branch ||= `git rev-parse --abbrev-ref HEAD`.chomp
+  end
+
+  def print(return_message)
+    puts return_message
+    return_message
   end
 end
