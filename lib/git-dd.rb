@@ -14,7 +14,12 @@ class GitDD
     branch_names = branch_names.split("\n")
 
     branches_with_more_info = `git branch -vv`
-    branches_with_more_info = branches_with_more_info.split("\n")
+    begin
+      branches_with_more_info = branches_with_more_info.split("\n")
+    rescue
+      branches_with_more_info = `git branch`
+      branches_with_more_info = branches_with_more_info.split("\n")
+    end
 
     return if branch_names.size != branches_with_more_info.size
 
