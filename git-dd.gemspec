@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = 'git-dd'
-  s.version     = '0.2.2'
-  s.date        = '2017-07-16'
+  s.version     = '0.2.3'
+  s.date        = '2017-07-19'
   s.summary     = 'git command to delete branches interactively'
   s.authors     = ["Weiqing Chu"]
   s.email       = 'cwq1913@gmail.com'
