@@ -1,8 +1,7 @@
 # encoding: utf-8
 
-require 'git-dd'
+require_relative '../lib/git-dd.rb'
 require 'tty-prompt'
-require 'const.rb'
 
 RSpec.configure do |config|
   config.default_formatter = 'doc'
