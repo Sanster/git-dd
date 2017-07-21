@@ -42,11 +42,7 @@ class GitDD
       prompt = TTY::Prompt.new(interrupt: :exit)
     end
 
-    prompt.on(:keypress) do |event|
-      if event.value == 'q'
-        return
-      end
-    end
+    prompt.on(:keypress) { |event| return if event.value == 'q' }
 
     branches_to_delete = prompt.multi_select("Choose branches to delete:", per_page: 20, help: '',echo: false) do |menu|
       branches_for_select.each do |k, v|
