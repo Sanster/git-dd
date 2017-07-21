@@ -6,6 +6,7 @@ require 'const.rb'
 
 class GitDD
   attr_accessor :prompt
+  MERGED = "merged"
 
   def run(test_prompt = nil)
     branch_names = `git branch`
@@ -13,7 +14,7 @@ class GitDD
 
     branch_names = branch_names.split("\n")
 
-    branches_with_more_info =
+    branches_vv =
       begin
         str = `git branch -vv`
         str.split("\n")
@@ -22,16 +23,16 @@ class GitDD
         str.split("\n")
       end
 
-    return if branch_names.size != branches_with_more_info.size
+    return if branch_names.size != branches_vv.size
 
-    branches = {}
-    branch_names.each_with_index { |b, i| branches[b] = branches_with_more_info[i] }
+    branches_for_select = {}
+    branch_names.each_with_index { |b, i| branches_for_select[b] = branches_vv[i] }
 
-    if branches.size == 1
+    if branches_for_select.size == 1
       return print(ONLY_ONE_BRANCH)
     end
 
-    branches = branches.select { |k, v| k != current_branch_with_mark && !k.include?("* (HEAD detached at") }
+    branches_for_select = branches_for_select.select { |k, v| k != current_branch_with_mark && !k.include?("* (HEAD detached at") }
 
     puts "Current branch is: #{current_branch.color(:green)}"
 
@@ -48,7 +49,14 @@ class GitDD
     end
 
     branches_to_delete = prompt.multi_select("Choose branches to delete:", per_page: 20, help: '',echo: false) do |menu|
-      branches.each { |k, v| menu.choice v, k}
+      branches_for_select.each do |k, v|
+        if merged?(k)
+          v = MERGED.color(:green) + v
+        else
+          v = " " * MERGED.length + v
+        end
+        menu.choice v, k
+      end
     end
 
     if branches_to_delete.size == 0
@@ -76,6 +84,19 @@ class GitDD
 
   def current_branch
     @current_branch ||= `git rev-parse --abbrev-ref HEAD`.chomp
+  end
+
+  def merged_branch_names
+    return @merged_branches if @merged_branches
+
+    @merged_branches = `git branch --merged`
+    @merged_branches = @merged_branches.split("\n")
+
+    @merged_branches = @merged_branches.select { |b| b != current_branch_with_mark }
+  end
+
+  def merged?(branch_name)
+    merged_branch_names.include? branch_name
   end
 
   def print(return_message)
