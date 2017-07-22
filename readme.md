@@ -1,5 +1,7 @@
 # git-dd
 
+![Gem Version](https://badge.fury.io/rb/git-dd.svg)
+
 > git command to delete branches interactively
 
 ## Install
