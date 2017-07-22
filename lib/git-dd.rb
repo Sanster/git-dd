@@ -7,6 +7,7 @@ require 'const.rb'
 class GitDD
   attr_accessor :prompt
   MERGED = "merged"
+  UNMERGE = "unmerge"
 
   def run(test_prompt = nil)
     branch_names = `git branch`
@@ -41,25 +42,28 @@ class GitDD
     else
       prompt = TTY::Prompt.new(interrupt: :exit)
     end
-
     prompt.on(:keypress) { |event| return if event.value == 'q' }
 
-    branches_to_delete = prompt.multi_select("Choose branches to delete:", per_page: 20, help: '',echo: false) do |menu|
-      branches_for_select.each do |k, v|
+    branches_for_select.each do |k, v|
+      branches_for_select[k] =
         if merged?(k)
-          v = MERGED.color(:green) + v
+          MERGED.color(:green) + " " + v
         else
-          v = " " * MERGED.length + v
+          UNMERGE.color(:red) + v
         end
-        menu.choice v, k
-      end
+    end
+
+    branches_to_delete = prompt.multi_select("Choose branches to delete:", per_page: 20, help: '',echo: false) do |menu|
+      branches_for_select.each { |k, v| menu.choice(v, k) }
     end
 
     if branches_to_delete.size == 0
       return print(NO_BRANCH_SELECTED)
     end
 
-    branches_to_delete.each { |b| puts b.color(:red) }
+    branches_to_delete.each do |b|
+      puts " "*4 + branches_for_select[b]
+    end
 
     ensure_delete = !prompt.no?('Are you sure?')
 
