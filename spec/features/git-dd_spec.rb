@@ -21,7 +21,27 @@ RSpec.describe "git-dd feature test" do
       `git checkout -q -b t1`
       `git checkout -q -b t2`
       `git checkout -q -b t3`
+      `touch test`
+      `git add .`
+      `git commit -m "test2"`
       `git checkout -q master`
+    end
+
+    it 'show merged/unmerge status' do
+      prompt = TTY::TestPrompt.new
+      prompt.input << " " << "j" << "j"
+      prompt.input << " " << "j"
+      prompt.input << "y\r"
+      prompt.on(:keypress) do |event|
+        prompt.trigger(:keydown) if event.value == "j"
+      end
+      prompt.input.rewind
+
+      expect do
+        GitDD.new.run(prompt)
+      end.to output(
+        /merged/ && /unmerge/
+      ).to_stdout
     end
 
     it 'delete nothing when press enter immediately' do
