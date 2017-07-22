@@ -2,23 +2,26 @@
 require 'spec_helper.rb'
 
 RSpec.describe "git-dd feature test" do
+  before do
+    `mkdir tmp`
+    Dir.chdir('tmp')
+    `git init`
+    `touch .keep`
+    `git add .`
+    `git commit -m "test"`
+  end
+
+  after do
+    Dir.chdir('../')
+    `rm -rf tmp`
+  end
+
   context "Repository has more than one branch" do
     before do
-      `mkdir tmp`
-      Dir.chdir('tmp')
-      `git init`
-      `touch .keep`
-      `git add .`
-      `git commit -m "test"`
       `git checkout -q -b t1`
       `git checkout -q -b t2`
       `git checkout -q -b t3`
       `git checkout -q master`
-    end
-
-    after do
-      Dir.chdir('../')
-      `rm -rf tmp`
     end
 
     it 'delete nothing when press enter immediately' do
@@ -54,20 +57,6 @@ RSpec.describe "git-dd feature test" do
   end
 
   context "Repository has only one branch" do
-    before do
-      `mkdir tmp`
-      Dir.chdir('tmp')
-      `git init`
-      `touch .keep`
-      `git add .`
-      `git commit -m "test"`
-    end
-
-    after do
-      Dir.chdir('../')
-      `rm -rf tmp`
-    end
-
     it 'prompt only one branch' do
       prompt = TTY::TestPrompt.new
 
