@@ -2,13 +2,17 @@
 
 > git command to delete branches interactively
 
-## How to use
+## Install
 Install git-dd with [gem](https://rubygems.org/):
 ```
 gem install git-dd
 ```
 
-Run `git dd` in a git repository. Use arrow keys, press Space to select and Enter to finish:
+## How to use
 ![git-dd](git-dd.gif)
+
+Run `git dd` in a git repository. Use arrow keys, press Space to select and Enter to finish:
+
+The **merged/unmerge** status show whether the branch has been merged into current branch.
 
 Press `Ctrl + c` to return.
