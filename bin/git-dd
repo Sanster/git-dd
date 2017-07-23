@@ -1,5 +1,25 @@
 #!/usr/bin/env ruby
 
 require 'git-dd'
+require 'git-dd/version'
+require 'slop'
 
-GitDD.new.run
+opts = Slop::Options.new
+opts.banner = "usage: git dd [options] ..."
+opts.null '[no options]', 'select branches to delete'
+opts.bool '-m', '--merged', 'delete branches have been merged into current branch'
+opts.bool '-v', '--version', 'print the version'
+opts.bool '-h', '--help', 'print help'
+
+parser = Slop::Parser.new(opts)
+result = parser.parse(ARGV).to_hash
+
+if result[:version]
+  puts GitDD::VERSION
+elsif result[:merged]
+  GitDD.new.delete_merged_branches
+elsif result[:help]
+  puts opts
+else
+  GitDD.new.select_branches_to_delete
+end

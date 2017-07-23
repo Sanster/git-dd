@@ -15,6 +15,7 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency 'tty-prompt', '0.12.0'
   s.add_runtime_dependency 'rainbow', '~> 0'
+  s.add_runtime_dependency 'slop', '~> 4.5.0'
 
   s.add_development_dependency 'rspec', '~>3.6'
   s.add_development_dependency 'rake', '~> 0'

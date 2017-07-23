@@ -38,7 +38,7 @@ RSpec.describe "git-dd feature test" do
       prompt.input.rewind
 
       expect do
-        GitDD.new.run(prompt)
+        GitDD.new(prompt).select_branches_to_delete
       end.to output(
         /merged/ && /unmerge/
       ).to_stdout
@@ -49,7 +49,7 @@ RSpec.describe "git-dd feature test" do
       prompt.input << "\r"
       prompt.input.rewind
 
-      expect(GitDD.new.run(prompt)).to eq(NO_BRANCH_SELECTED)
+      expect(GitDD.new(prompt).select_branches_to_delete).to eq(NO_BRANCH_SELECTED)
     end
 
     it 'delete t1 branch when press space once' do
@@ -58,7 +58,7 @@ RSpec.describe "git-dd feature test" do
       prompt.input << "y\r"
       prompt.input.rewind
 
-      expect(GitDD.new.run(prompt)).to eq(["  t1"])
+      expect(GitDD.new(prompt).select_branches_to_delete).to eq(["  t1"])
     end
 
     it 'delete all branch' do
@@ -72,7 +72,7 @@ RSpec.describe "git-dd feature test" do
         prompt.trigger(:keydown) if event.value == "j"
       end
 
-      expect(GitDD.new.run(prompt)).to eq(["  t1","  t2", "  t3"])
+      expect(GitDD.new(prompt).select_branches_to_delete).to eq(["  t1","  t2", "  t3"])
     end
   end
 
@@ -80,7 +80,7 @@ RSpec.describe "git-dd feature test" do
     it 'prompt only one branch' do
       prompt = TTY::TestPrompt.new
 
-      expect(GitDD.new.run(prompt)).to eq(ONLY_ONE_BRANCH)
+      expect(GitDD.new(prompt).select_branches_to_delete).to eq(ONLY_ONE_BRANCH)
     end
   end
 end
