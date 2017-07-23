@@ -21,6 +21,8 @@ class GitDD
   end
 
   def delete_merged_branches()
+    return print(NO_MERGED_BRANCH) if merged_branches.size == 0
+
     puts "Branches have been merged into: #{current_branch.color(:green)}"
 
     merged_branches.each { |b| puts " "*4 + branches_for_select[b] }

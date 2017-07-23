@@ -90,5 +90,11 @@ RSpec.describe "git-dd feature test" do
 
       expect(GitDD.new(prompt).select_branches_to_delete).to eq(ONLY_ONE_BRANCH)
     end
+
+    it 'prompt no merged branches' do
+      prompt = TTY::TestPrompt.new
+
+      expect(GitDD.new(prompt).delete_merged_branches).to eq(NO_MERGED_BRANCH)
+    end
   end
 end
