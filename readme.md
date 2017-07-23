@@ -11,10 +11,12 @@ gem install git-dd
 ```
 
 ## How to use
+- Run `git dd` to select branches to delete. Use arrow keys, press Space to select and Enter to finish.
+
 ![git-dd](git-dd.gif)
 
-Run `git dd` in a git repository. Use arrow keys, press Space to select and Enter to finish:
-
 The **merged/unmerge** status show whether the branch has been merged into current branch.
+
+* Run `git dd --merged` to delete all branches have been merged into current branch.
 
 Press `Ctrl + c` to return.
