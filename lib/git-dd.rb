@@ -23,7 +23,7 @@ class GitDD
   def delete_merged_branches()
     puts "Branches have been merged into: #{current_branch.color(:green)}"
 
-    merged_branches.each { |b| puts " "*4 + branches_for_select[b][16..-1] }
+    merged_branches.each { |b| puts " "*4 + branches_for_select[b] }
 
     ensure_delete = !prompt.no?('Are you sure?')
 

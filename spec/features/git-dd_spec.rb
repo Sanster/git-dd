@@ -61,7 +61,7 @@ RSpec.describe "git-dd feature test" do
       expect(GitDD.new(prompt).select_branches_to_delete).to eq(["  t1"])
     end
 
-    it 'delete all branch' do
+    it 'delete all branches' do
       prompt = TTY::TestPrompt.new
       prompt.input << " " << "j"
       prompt.input << " " << "j"
@@ -73,6 +73,14 @@ RSpec.describe "git-dd feature test" do
       end
 
       expect(GitDD.new(prompt).select_branches_to_delete).to eq(["  t1","  t2", "  t3"])
+    end
+
+    it 'delete merged branches' do
+      prompt = TTY::TestPrompt.new
+      prompt.input << "y\r"
+      prompt.input.rewind
+
+      expect(GitDD.new(prompt).delete_merged_branches).to eq(["  t1","  t2"])
     end
   end
 
