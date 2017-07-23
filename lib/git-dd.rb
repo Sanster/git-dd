@@ -2,7 +2,7 @@
 
 require 'tty-prompt'
 require 'rainbow/ext/string'
-require 'const.rb'
+require_relative './git-dd/const.rb'
 
 class GitDD
   attr_accessor :prompt
