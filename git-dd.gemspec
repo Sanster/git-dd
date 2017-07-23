@@ -6,7 +6,7 @@ require "git-dd/version"
 Gem::Specification.new do |s|
   s.name        = 'git-dd'
   s.version     = GitDD::VERSION
-  s.date        = '2017-07-22'
+  s.date        = '2017-07-23'
   s.summary     = 'git command to delete branches interactively'
   s.authors     = ["Weiqing Chu"]
   s.email       = 'cwq1913@gmail.com'
@@ -14,12 +14,12 @@ Gem::Specification.new do |s|
   s.license     = 'MIT'
 
   s.add_runtime_dependency 'tty-prompt', '0.12.0'
-  s.add_runtime_dependency 'rainbow', '~> 0'
-  s.add_runtime_dependency 'slop', '~> 4.5.0'
+  s.add_runtime_dependency 'rainbow', '~> 2.2'
+  s.add_runtime_dependency 'slop', '~> 4.5'
 
   s.add_development_dependency 'rspec', '~>3.6'
   s.add_development_dependency 'rake', '~> 0'
 
-  s.files       = ["lib/git-dd.rb", "lib/const.rb"]
+  s.files       = ["lib/git-dd.rb", "lib/git-dd/const.rb", "lib/git-dd/version.rb"]
   s.executables << 'git-dd'
 end
